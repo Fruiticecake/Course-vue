@@ -17,4 +17,6 @@ router.post(
  */
 router.post("/login", expressJoi(userCheck), userController.loginController);
 
+router.get("/userInfo", userController.userController);
+
 module.exports = router;

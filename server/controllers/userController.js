@@ -1,5 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { jwtSecretKey } = require("../config/jwtSecretKey");
 /**
  * 注册接口逻辑
  */
@@ -68,6 +70,23 @@ exports.loginController = (req, res) => {
     if (!comparePWD) {
       return res.send({ code: 1, message: "密码错误，请重试！" });
     }
-    res.send({ code: 0, message: "登陆成功" });
+    const user = { ...results[0], pwd: "" };
+    const token = jwt.sign(user, jwtSecretKey, { expiresIn: "24h" });
+
+    res.send({ code: 0, message: "登陆成功", token: "Bearer " + token });
+  });
+};
+
+/**
+ * 用户信息查询
+ */
+exports.userController = (req, res) => {
+  //获取token
+  const token = req.headers.authorization;
+  const userInfo = jwt.verify(token.split("Bearer ")[1], jwtSecretKey);
+  //console.log(userInfo);
+  res.send({
+    code: 0,
+    data: { name: userInfo.name, headImg: userInfo.head_img },
   });
 };
