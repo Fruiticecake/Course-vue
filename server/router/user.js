@@ -12,4 +12,9 @@ router.post(
   userController.registerController
 );
 
+/**
+ * 用户登录
+ */
+router.post("/login", expressJoi(userCheck), userController.loginController);
+
 module.exports = router;

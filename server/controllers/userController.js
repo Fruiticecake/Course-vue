@@ -1,5 +1,5 @@
 const db = require("../config/db");
-
+const bcrypt = require("bcryptjs");
 /**
  * 注册接口逻辑
  */
@@ -48,5 +48,26 @@ exports.registerController = (req, res) => {
         });
       }
     );
+  });
+};
+/**
+ * 登陆接口
+ */
+exports.loginController = (req, res) => {
+  let { userName, password } = req.body;
+  const userSelectSql = "select * from user where name=?";
+  db.query(userSelectSql, userName, (err, results) => {
+    if (err) {
+      return res.send({ code: 1, message: err.message });
+    }
+    if (results.length === 0) {
+      return res.send({ code: 1, message: "账号不存在，请先注册！" });
+    }
+    //密码检验
+    const comparePWD = bcrypt.compareSync(password, results[0].pwd);
+    if (!comparePWD) {
+      return res.send({ code: 1, message: "密码错误，请重试！" });
+    }
+    res.send({ code: 0, message: "登陆成功" });
   });
 };
