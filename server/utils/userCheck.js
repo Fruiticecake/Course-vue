@@ -15,3 +15,15 @@ exports.userCheck = {
     password,
   },
 };
+
+const category = joi.string().required();
+const page = joi.number().integer().required();
+const size = joi.number().integer().required();
+
+exports.courseCheck = {
+  query: {
+    category,
+    page,
+    size,
+  },
+};

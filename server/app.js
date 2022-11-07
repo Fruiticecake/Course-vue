@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({ extend: false }));
  */
 const cors = require("cors");
 app.use(cors());
-
 /**
  * token校验
  */
@@ -32,6 +31,12 @@ const userRouter = require("./router/user");
 app.use("/api/v1/user", userRouter);
 
 /**
+ * 课程相关
+ */
+const courseRouter = require("./router/course");
+app.use("/api/v1/course", courseRouter);
+
+/**
  * 错误中间件
  */
 const joi = require("joi");
@@ -42,11 +47,11 @@ app.use((err, req, res, next) => {
       message: err.message,
     });
   }
-  if(err.name === 'UnauthorizedError'){
+  if (err.name === "UnauthorizedError") {
     return res.send({
-        code: 1,
-        message: '身份认证失败或未进行认证',
-      });
+      code: 1,
+      message: "身份认证失败或未进行认证",
+    });
   }
   res.send({
     code: 1,
