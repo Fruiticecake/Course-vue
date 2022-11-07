@@ -39,3 +39,9 @@ exports.updateCheck = {
     id,
   },
 };
+
+exports.deleteCheck = {
+  query: {
+    id,
+  },
+};

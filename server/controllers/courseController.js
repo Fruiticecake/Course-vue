@@ -31,7 +31,6 @@ exports.listVideo = (req, res) => {
     });
   });
 };
-
 /**
  * 课程修改
  */
@@ -55,5 +54,20 @@ exports.updateVideoById = (req, res) => {
       return res.send({ code: 1, message: err, message });
     }
     res.send({ code: 0, message: "修改成功" });
+  });
+};
+
+/**
+ * 删除课程
+ */
+exports.deleteVideoById = (req, res) => {
+  let { id } = req.query;
+
+  let sql = "update video set del=1 where id=?";
+  db.query(sql, id, (err, results) => {
+    if (err) {
+      return res.send({ code: 1, message: err.message });
+    }
+    res.send({ code: 0, message: "删除成功" });
   });
 };
