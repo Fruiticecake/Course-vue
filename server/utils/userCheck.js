@@ -27,3 +27,15 @@ exports.courseCheck = {
     size,
   },
 };
+
+const title = joi.string();
+const price = joi.number();
+const id = joi.number().integer().required();
+
+exports.updateCheck = {
+  query: {
+    title,
+    price,
+    id,
+  },
+};
