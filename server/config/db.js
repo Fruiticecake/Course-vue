@@ -1,10 +1,11 @@
+require("dotenv").config();
 const mysql = require("mysql");
 
 const db = mysql.createPool({
-  host: "119.23.73.9",
-  user: "root",
-  password: "xdclass.net168",
-  database: "course",
+  host: process.env.DB_HOST,
+  user: process.env.DB_ROOT,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
-const textSql = 'SELECT * FROM course.user;'
+const textSql = "SELECT * FROM course.user;";
 module.exports = db;
