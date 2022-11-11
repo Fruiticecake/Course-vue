@@ -74,28 +74,25 @@ const getLoginData = () => {
     type: "success",
   });
   router.push("/home");
-
 };
 
 /**
  * to注册页面
  */
 const toRegister = () => {
-  router.push('/register')
+  router.push("/register");
 };
 </script>
 
 <style lang="less" scoped>
-@-webkit-keyframes fadenum {
+@keyframes load {
   0% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
 }
-
 .login {
   height: 100%;
 
@@ -112,7 +109,7 @@ const toRegister = () => {
   }
 
   .login_container {
-    animation: fadenum 1s ease;
+    animation: load 1s ease;
     position: absolute;
     z-index: 1;
     width: 400px;
