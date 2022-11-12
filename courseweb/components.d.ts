@@ -12,6 +12,8 @@ declare module '@vue/runtime-core' {
     ClientHeader: typeof import('./src/components/clientHeader.vue')['default']
     ClientMain: typeof import('./src/components/clientMain.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElFooter: typeof import('element-plus/es')['ElFooter']
