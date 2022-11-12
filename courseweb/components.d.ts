@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     ClientFooter: typeof import('./src/components/clientFooter.vue')['default']
     ClientHeader: typeof import('./src/components/clientHeader.vue')['default']
     ClientMain: typeof import('./src/components/clientMain.vue')['default']
+    ClientTable: typeof import('./src/components/clientTable.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -26,7 +27,10 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
+    ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
