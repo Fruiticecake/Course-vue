@@ -11,9 +11,7 @@
       <el-table-column prop="point" lable="评分"> </el-table-column>
       <el-table-column lable="操作">
         <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
-          >
+          <el-button size="small" @click="editClick(scope.row)">编辑</el-button>
           <el-popconfirm title="确定要删除该项吗？">
             <template #reference>
               <el-button
@@ -32,18 +30,19 @@
 
 <script setup>
 import { defineProps } from "vue";
-const { list } = defineProps(["list"]);
+const { list, editClick } = defineProps(["list", "editClick"]);
 
 /**
  * 行列样式
  */
-const tableRowClassName = ({rowIndex}) => {
-  if ((rowIndex) % 2 === 0) {
+const tableRowClassName = ({ rowIndex }) => {
+  if (rowIndex % 2 === 0) {
     return "warning-row";
   } else {
     return "";
   }
 };
+
 </script>
 
 <style lang="less" scoped>
