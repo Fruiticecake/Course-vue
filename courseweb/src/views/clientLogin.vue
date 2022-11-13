@@ -40,7 +40,7 @@
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
 import router from "../router/index";
-
+import { getLogin } from "../api/index";
 const ref_form = ref(null);
 
 const userInfo = reactive({
@@ -67,13 +67,21 @@ const onLogin = () => {
 /**
  * 登陆接口
  */
-const getLoginData = () => {
-  localStorage.setItem("token", 100);
-  ElMessage({
-    message: "登陆成功",
-    type: "success",
+const getLoginData = async () => {
+  //调用接口
+  const res = await getLogin({
+    userName: userInfo.userName,
+    password: userInfo.password,
   });
-  router.push("/home");
+  //console.log(res)
+  if (res?.token) {
+    localStorage.setItem("token", res?.token);
+    ElMessage({
+      message: "登陆成功",
+      type: "success",
+    });
+    router.push("/home");
+  }
 };
 
 /**

@@ -40,7 +40,7 @@
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
 import router from "../router/index";
-
+import { getRegister } from "../api/index";
 const ref_form = ref(null);
 
 const userInfo = reactive({
@@ -67,19 +67,28 @@ const onRegister = () => {
 /**
  * 注册接口
  */
-const getRegisterData = () => {
-  ElMessage({
-    message: "注册成功",
-    type: "success",
+const getRegisterData = async () => {
+  //接口的调用
+  const res = await getRegister({
+    userName: userInfo.userName,
+    password: userInfo.password,
   });
-  router.push("/login");
+  //console.log(res);
+  // 如果注册成功
+  if (res?.message) {
+    ElMessage({
+      message: "注册成功！",
+      type: "success",
+    });
+    router.push("/login");
+  }
 };
 
 /**
  * to登录页面
  */
 const toLogin = () => {
-  router.push('/login')
+  router.push("/login");
 };
 </script>
 
