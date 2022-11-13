@@ -4,7 +4,7 @@ import request from "@/utils/request";
  * 注册接口
  */
 export const getRegister = (data) => {
-    //console.log(data)
+  //console.log(data)
   return request({ method: "post", url: "/api/v1/user/register", data });
 };
 /**
@@ -12,4 +12,12 @@ export const getRegister = (data) => {
  */
 export const getLogin = (data) => {
   return request({ method: "post", url: "/api/v1/user/login", data });
+};
+
+/**
+ * 用户信息接口
+ */
+
+export const getUserInfo = () => {
+  return request({ method: "get", url: "/api/v1/user/userInfo"});
 };

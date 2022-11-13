@@ -17,22 +17,21 @@
       @mouseenter="isShowUserInfo('showUserInfo')"
       @mouseleave="isShowUserInfo('leaveUserInfo')"
     >
-      <img
-        src="https://github.com/Fruiticecake/images/blob/main/course-images/头像%20女孩%20(1).png?raw=true"
-        alt=""
-      />
+      <img :src="userInfo.headImg" alt="" />
 
       <div class="userInfo" v-show="showUserInfo">
-        <div>张三</div>
-        <div>退出登录</div>
+        <div>{{ userInfo.name }}</div>
+        <div @click="loginOut">退出登录</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
-
+import { reactive } from "@vue/reactivity";
+import { ref, defineProps, onMounted } from "vue";
+import { getUserInfo } from "../api/index";
+import router from "../router/index";
 const { handleOpen, isCollapse } = defineProps(["handleOpen", "isCollapse"]);
 const showUserInfo = ref(false);
 const isShowUserInfo = (type) => {
@@ -40,6 +39,35 @@ const isShowUserInfo = (type) => {
     ? (showUserInfo.value = true)
     : (showUserInfo.value = false);
 };
+
+/**
+ * 退出登录
+ */
+
+const loginOut = () => {
+  router.push("/login");
+  localStorage.removeItem("token");
+};
+/**
+ * 用户信息接口调用
+ */
+const userInfo = reactive({
+  name: "",
+  headImg: "",
+});
+
+const getUserInfoData = async () => {
+  const res = await getUserInfo();
+  console.log(res.data);
+  const data = res.data;
+  if (data?.name && data?.headImg) {
+    userInfo.name = data.name;
+    userInfo.headImg = data.headImg;
+  }
+};
+onMounted(() => {
+  getUserInfoData();
+});
 </script>
 
 <style lang="less" scoped>
