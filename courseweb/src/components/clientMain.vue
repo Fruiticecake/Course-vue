@@ -1,8 +1,17 @@
 <template>
   <div class="main">
-    <div>搜索</div>
-    <clientTable :list="courseData.list" :editClick="editClick"></clientTable>
-    <div>分页</div>
+    <el-form>
+      <el-form-item>
+        <el-input v-model.trim="inputValue" placaholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-button type="primary" @click="searchClick">查询</el-button>
+    </el-form>
+    <clientTable
+      :list="courseList"
+      :editClick="editClick"
+      :handleDelete="handleDelete"
+    ></clientTable>
+    <pagination :total="courseData.total" :handleCurrentChange="handleCurrentChange"></pagination>
   </div>
   <courseEdit
     :popShow="popShow"
@@ -15,7 +24,9 @@
 <script setup>
 import clientTable from "./clientTable.vue";
 import courseEdit from "./courseEdit.vue";
+import pagination from "./pagination.vue";
 import { reactive, ref } from "vue";
+import { computed } from "@vue/runtime-core";
 const courseData = reactive({
   list: [
     {
@@ -65,6 +76,7 @@ const courseData = reactive({
       title: "22年新版-玩转ECMAScript6零基础到进阶实战es6视频",
     },
   ],
+  total: 15,
 });
 
 //控制编辑弹窗
@@ -113,6 +125,51 @@ const confirmClick = (val) => {
     });
   }
 };
+
+/**
+ * 删除
+ */
+const handleDelete = (val) => {
+  if (val) {
+    courseData.list = courseData.list.filter((item) => {
+      return item.id !== val;
+    });
+    //数据库调用接口修改
+
+    //弹窗提醒
+    ElMessage({
+      message: "删除成功",
+      type: "success",
+    });
+  }
+};
+
+/**
+ * 搜索框
+ */
+const inputValue = ref("");
+const courseList = computed(() => {
+  return courseData.list?.filter((item) => {
+    return item.title.indexOf(inputValue.value) >= 0;
+  });
+});
+const searchClick = () => {
+  if (inputValue.value) {
+    ElMessage({
+      message: "查询成功",
+      type: "success",
+    });
+  }
+};
+
+/**
+ * 分页 
+ */
+
+ const handleCurrentChange=(val)=>{
+  console.log(val)
+ }
+
 </script>
 
 <style lang="less" scoped>

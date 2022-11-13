@@ -12,12 +12,11 @@
       <el-table-column lable="操作">
         <template #default="scope">
           <el-button size="small" @click="editClick(scope.row)">编辑</el-button>
-          <el-popconfirm title="确定要删除该项吗？">
+          <el-popconfirm title="确定要删除吗？" @confirm="handleDelete(scope.row.id)">
             <template #reference>
               <el-button
                 size="small"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
                 >删除</el-button
               >
             </template>
@@ -30,7 +29,7 @@
 
 <script setup>
 import { defineProps } from "vue";
-const { list, editClick } = defineProps(["list", "editClick"]);
+const { list, editClick ,handleDelete} = defineProps(["list", "editClick",'handleDelete']);
 
 /**
  * 行列样式
