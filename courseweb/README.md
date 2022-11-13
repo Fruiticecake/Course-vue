@@ -1,4 +1,7 @@
 # courseweb
+## bug 记录
+- 侧边栏切换课程时，分页栏无法自动跳转到‘1’  如果手动设置current-page属性，分页跳转的样式又失效了。 可能是el-pagination的问题。
+
 
 ## Project setup
 ```
