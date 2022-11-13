@@ -19,5 +19,12 @@ export const getLogin = (data) => {
  */
 
 export const getUserInfo = () => {
-  return request({ method: "get", url: "/api/v1/user/userInfo"});
+  return request({ method: "get", url: "/api/v1/user/userInfo" });
+};
+
+/**
+ * 列表数据接口
+ */
+export const getCourse = (data) => {
+  return request({ method: "get", url: "/api/v1/course/find", data });
 };

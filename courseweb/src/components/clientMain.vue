@@ -11,7 +11,10 @@
       :editClick="editClick"
       :handleDelete="handleDelete"
     ></clientTable>
-    <pagination :total="courseData.total" :handleCurrentChange="handleCurrentChange"></pagination>
+    <pagination
+      :total="courseData.total"
+      :handleCurrentChange="handleCurrentChange"
+    ></pagination>
   </div>
   <courseEdit
     :popShow="popShow"
@@ -27,56 +30,14 @@ import courseEdit from "./courseEdit.vue";
 import pagination from "./pagination.vue";
 import { reactive, ref } from "vue";
 import { computed } from "@vue/runtime-core";
+import { getCourse } from "../api/index";
+import { onMounted } from "@vue/runtime-core";
+import emitter from "@/utils/eventBus";
 const courseData = reactive({
-  list: [
-    {
-      category: "front",
-      courseImg: "https://file.xdclass.net/video/2022/77-QD/cover.jpeg",
-      del: 0,
-      id: 1,
-      point: 9.8,
-      price: "99",
-      title: "22年新版【前端高级工程师】面试专题第一季",
-    },
-    {
-      category: "front",
-      courseImg: "https://file.xdclass.net/video/2022/75-Vue3/cover1.jpeg",
-      del: 0,
-      id: 2,
-      point: 9.5,
-      price: "99",
-      title: "22年新版-零基础玩转vue3+开发仿美团外卖项目vue视频",
-    },
-    {
-      category: "front",
-      courseImg: "https://file.xdclass.net/video/2022/76-webpack5/cover.jpeg",
-      del: 0,
-      id: 3,
-      point: 9.3,
-      price: "59",
-      title: "新版webpack5丨带你玩转时下最流行的构建工具",
-    },
-    {
-      category: "front",
-      courseImg:
-        "https://file.xdclass.net/video/2021/74-git/WechatIMG3026.jpeg",
-      del: 0,
-      id: 4,
-      point: 9.2,
-      price: "39",
-      title: "22年新版-玩转Git零基础到进阶实战 git视频急速入门",
-    },
-    {
-      category: "front",
-      courseImg: "https://file.xdclass.net/video/2021/73-ES6/cover.jpeg",
-      del: 0,
-      id: 5,
-      point: 9.4,
-      price: "49",
-      title: "22年新版-玩转ECMAScript6零基础到进阶实战es6视频",
-    },
-  ],
+  list: [],
   total: 15,
+  page: 1,
+  sideCategory: "front",
 });
 
 //控制编辑弹窗
@@ -163,13 +124,39 @@ const searchClick = () => {
 };
 
 /**
- * 分页 
+ * 分页
  */
+const handleCurrentChange = (val) => {
+  getCourseData({ category: courseData.sideCategory, page: val});
+};
 
- const handleCurrentChange=(val)=>{
-  console.log(val)
- }
-
+/**
+ * 切换类别
+ */
+const getCourseData = async (query) => {
+  const category = query?.category || courseData.sideCategory;
+  const page = query?.page || 1;
+  const size = query?.size || 5;
+  const res = await getCourse({ category, page, size });
+  //console.log(res)
+  const data = res.data;
+  //获取相应分类
+  courseData.list = data?.list.filter((item) => {
+    return item.category === category;
+  });
+  console.log({ courseData: data });
+  courseData.total = data.total[0].total;
+};
+onMounted(() => {
+  getCourseData();
+  //类别切换监听
+  emitter.on("course", (val) => {
+    courseData.sideCategory = val
+    courseData.page=1,
+    
+    getCourseData({ category: val, page: 1 });
+  });
+});
 </script>
 
 <style lang="less" scoped>

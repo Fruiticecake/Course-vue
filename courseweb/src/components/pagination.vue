@@ -6,6 +6,7 @@
       :total="total"
       :page-size="5"
       @current-change="handleCurrentChange"
+     
     />
   </div>
 </template>
@@ -20,11 +21,11 @@ const { total, currentChange, handleCurrentChange } = defineProps([
 </script>
 
 <style lang="less" scoped>
-.pagination{
+.pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  top:10px;
+  top: 10px;
 }
 </style>

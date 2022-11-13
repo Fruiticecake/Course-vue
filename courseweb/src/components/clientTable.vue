@@ -1,9 +1,9 @@
 <template>
   <div class="table">
     <el-table :data="list" :row-class-name="tableRowClassName">
-      <el-table-column prop="courseImg" lable="图片">
+      <el-table-column prop="course_img" lable="图片">
         <template #default="scope">
-          <img :src="scope.row.courseImg" class="courseImg" />
+          <img :src="scope.row.course_img" class="courseImg" />
         </template>
       </el-table-column>
       <el-table-column prop="title" lable="标题"> </el-table-column>
