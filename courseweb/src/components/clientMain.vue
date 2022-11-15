@@ -14,7 +14,6 @@
     <pagination
       :total="courseData.total"
       :handleCurrentChange="handleCurrentChange"
-      
     ></pagination>
   </div>
   <courseEdit
