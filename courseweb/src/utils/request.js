@@ -21,14 +21,13 @@ service.interceptors.request.use((config) => {
   return config;
 });
 /**
- * 相应拦截
+ * 响应拦截
  */
 service.interceptors.response.use((res) => {
 
-  
   const data = res.data
   const { code, message } = data;
-  //console.log(data)
+  console.log(data)
   if (code === 0) {
     return data;
   } else {
@@ -37,7 +36,7 @@ service.interceptors.response.use((res) => {
       type: "error",
     });
   }
-  if (message === "身份认证失败") {
+  if (message === "身份认证失败或未进行认证") {
     router.push("/login");
   }
 });

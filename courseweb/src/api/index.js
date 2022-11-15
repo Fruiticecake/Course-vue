@@ -28,3 +28,9 @@ export const getUserInfo = () => {
 export const getCourse = (data) => {
   return request({ method: "get", url: "/api/v1/course/find", data });
 };
+/**
+ * 课程修改接口
+ */
+export const changeCourse = (data) => {
+  return request({ method: "get", url: "/api/v1/course/update", data });
+};

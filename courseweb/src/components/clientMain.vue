@@ -30,7 +30,7 @@ import courseEdit from "./courseEdit.vue";
 import pagination from "./pagination.vue";
 import { reactive, ref } from "vue";
 import { computed } from "@vue/runtime-core";
-import { getCourse } from "../api/index";
+import { getCourse, changeCourse } from "../api/index";
 import { onMounted } from "@vue/runtime-core";
 import emitter from "@/utils/eventBus";
 const courseData = reactive({
@@ -42,11 +42,26 @@ const courseData = reactive({
 
 //控制编辑弹窗
 const popShow = ref(false);
+/**
+ * 课程编辑
+ */
+
 //编辑的数据
 const courseItemState = reactive({
   message: {},
 });
-
+//课程修改接口调用
+const changeCourseData = async (query) => {
+  const { title, price, id } = query;
+  //console.log({ query: query });
+  const res = await changeCourse(query);
+  if (res?.message) {
+    ElMessage({
+      message: res.message,
+      type: "success",
+    });
+  }
+};
 const isShowPop = (val) => {
   popShow.value = val;
   console.log(popShow.value);
@@ -71,13 +86,9 @@ const confirmClick = (val) => {
       }
     });
     //修改接口调用
-
+    changeCourseData({ title: val.title, price: val.price, id: val.id });
     //关闭编辑页面
     isShowPop(false);
-    ElMessage({
-      message: "更改成功",
-      type: "success",
-    });
   } else {
     ElMessage({
       showClose: true,
@@ -127,7 +138,7 @@ const searchClick = () => {
  * 分页
  */
 const handleCurrentChange = (val) => {
-  getCourseData({ category: courseData.sideCategory, page: val});
+  getCourseData({ category: courseData.sideCategory, page: val });
 };
 
 /**
@@ -139,22 +150,21 @@ const getCourseData = async (query) => {
   const size = query?.size || 5;
   const res = await getCourse({ category, page, size });
   //console.log(res)
+  console.log(res)
   const data = res.data;
   //获取相应分类
   courseData.list = data?.list.filter((item) => {
     return item.category === category;
   });
-  console.log({ courseData: data });
+  //console.log({ courseData: data });
   courseData.total = data.total[0].total;
 };
 onMounted(() => {
   getCourseData();
   //类别切换监听
   emitter.on("course", (val) => {
-    courseData.sideCategory = val
-    courseData.page=1,
-    
-    getCourseData({ category: val, page: 1 });
+    courseData.sideCategory = val;
+    (courseData.page = 1), getCourseData({ category: val, page: 1 });
   });
 });
 </script>
