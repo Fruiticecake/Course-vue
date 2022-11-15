@@ -27,7 +27,7 @@ service.interceptors.response.use((res) => {
 
   const data = res.data
   const { code, message } = data;
-  console.log(data)
+  //console.log(data)
   if (code === 0) {
     return data;
   } else {
@@ -48,7 +48,7 @@ const request = (options) => {
   if (options.method === "get") {
     options.params = options.data;
   }
-  //console.log(options)
+  console.log(options)
   return service(options);
 
 };

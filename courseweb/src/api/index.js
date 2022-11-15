@@ -34,3 +34,9 @@ export const getCourse = (data) => {
 export const changeCourse = (data) => {
   return request({ method: "get", url: "/api/v1/course/update", data });
 };
+/**
+ * 课程删除接口
+ */
+ export const deleteCourse = (data) => {
+  return request({ method: "get", url: "/api/v1/course/delete", data });
+};

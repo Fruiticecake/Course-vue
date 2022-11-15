@@ -58,7 +58,7 @@ const userInfo = reactive({
 
 const getUserInfoData = async () => {
   const res = await getUserInfo();
-  console.log({userInfo:res.data});
+  //console.log({userInfo:res.data});
   const data = res.data;
   if (data?.name && data?.headImg) {
     userInfo.name = data.name;

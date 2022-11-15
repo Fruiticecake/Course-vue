@@ -14,6 +14,7 @@
     <pagination
       :total="courseData.total"
       :handleCurrentChange="handleCurrentChange"
+      
     ></pagination>
   </div>
   <courseEdit
@@ -30,7 +31,7 @@ import courseEdit from "./courseEdit.vue";
 import pagination from "./pagination.vue";
 import { reactive, ref } from "vue";
 import { computed } from "@vue/runtime-core";
-import { getCourse, changeCourse } from "../api/index";
+import { getCourse, changeCourse, deleteCourse } from "../api/index";
 import { onMounted } from "@vue/runtime-core";
 import emitter from "@/utils/eventBus";
 const courseData = reactive({
@@ -64,7 +65,7 @@ const changeCourseData = async (query) => {
 };
 const isShowPop = (val) => {
   popShow.value = val;
-  console.log(popShow.value);
+  //console.log(popShow.value);
 };
 
 const editClick = (val) => {
@@ -99,20 +100,39 @@ const confirmClick = (val) => {
 };
 
 /**
- * 删除
+ * 删除逻辑
  */
+//删除接口
+const deleteCourseData = async (val) => {
+  const res = await deleteCourse({ id: val });
+  //console.log(res)
+  //弹窗提醒
+  if (res.code === 0) {
+    ElMessage({
+      message: res.message,
+      type: "success",
+    });
+  } else {
+    ElMessage({
+      message: res.message,
+      type: "error",
+    });
+  }
+
+  //当前页面删除清空时跳转第一页
+  //console.log({'courseData':courseData.list.length,'page':courseData.page})
+  if (courseData.list.length === 0 && courseData.page > 1) {
+    console.log('success')
+    getCourseData({ category: courseData.sideCategory, page: 1 });
+  }
+};
 const handleDelete = (val) => {
   if (val) {
     courseData.list = courseData.list.filter((item) => {
       return item.id !== val;
     });
     //数据库调用接口修改
-
-    //弹窗提醒
-    ElMessage({
-      message: "删除成功",
-      type: "success",
-    });
+    deleteCourseData(val);
   }
 };
 
@@ -150,7 +170,6 @@ const getCourseData = async (query) => {
   const size = query?.size || 5;
   const res = await getCourse({ category, page, size });
   //console.log(res)
-  console.log(res)
   const data = res.data;
   //获取相应分类
   courseData.list = data?.list.filter((item) => {
