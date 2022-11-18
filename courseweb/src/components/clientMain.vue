@@ -138,7 +138,7 @@ const handleDelete = (val) => {
 /**
  * 搜索框
  */
-const inputValue = ref("");
+const inputValue = ref(" ");
 const courseList = computed(() => {
   return courseData.list?.filter((item) => {
     return item.title.indexOf(inputValue.value) >= 0;
