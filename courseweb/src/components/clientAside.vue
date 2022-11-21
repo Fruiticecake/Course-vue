@@ -27,8 +27,8 @@
         <span>用户管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="2-1">购物车</el-menu-item>
-        <el-menu-item index="2-2">个人信息</el-menu-item>
+        <el-menu-item index="2-1" @click="userHandle('buycar')">购物车</el-menu-item>
+        <el-menu-item index="2-2" @click="userHandle('userInfo')">个人信息</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -42,10 +42,15 @@ const { isCollapse } = defineProps(["isCollapse"]);
 /**
  * 类别切换
  */
+//课程类别切换
 const courseHandle=(type)=>{
   emitter.emit('course',type)
-  
 }
+//用户个人信息管理切换
+// const userHandle=(type)=>{
+//   emitter.emit('user',type);
+// }
+
 
 
 </script>

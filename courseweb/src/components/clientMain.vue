@@ -30,7 +30,12 @@ import courseEdit from "./courseEdit.vue";
 import pagination from "./pagination.vue";
 import { reactive, ref } from "vue";
 import { computed } from "@vue/runtime-core";
-import { getCourse, changeCourse, deleteCourse } from "../api/index";
+import {
+  getCourse,
+  changeCourse,
+  deleteCourse,
+  getUserInfo,
+} from "../api/index";
 import { onMounted } from "@vue/runtime-core";
 import emitter from "@/utils/eventBus";
 const courseData = reactive({
@@ -38,6 +43,10 @@ const courseData = reactive({
   total: 15,
   page: 1,
   sideCategory: "front",
+});
+const userInfo = reactive({
+  name: "",
+  head_img: "",
 });
 
 //控制编辑弹窗
@@ -53,7 +62,6 @@ const courseItemState = reactive({
 //课程修改接口调用
 const changeCourseData = async (query) => {
   const { title, price, id } = query;
-  //console.log({ query: query });
   const res = await changeCourse(query);
   if (res?.message) {
     ElMessage({
@@ -121,7 +129,7 @@ const deleteCourseData = async (val) => {
   //当前页面删除清空时跳转第一页
   //console.log({'courseData':courseData.list.length,'page':courseData.page})
   if (courseData.list.length === 0 && courseData.page > 1) {
-    console.log('success')
+    console.log("success");
     getCourseData({ category: courseData.sideCategory, page: 1 });
   }
 };
@@ -138,7 +146,7 @@ const handleDelete = (val) => {
 /**
  * 搜索框
  */
-const inputValue = ref(" ");
+const inputValue = ref("");
 const courseList = computed(() => {
   return courseData.list?.filter((item) => {
     return item.title.indexOf(inputValue.value) >= 0;
@@ -163,6 +171,7 @@ const handleCurrentChange = (val) => {
 /**
  * 切换类别
  */
+//课程类别切换
 const getCourseData = async (query) => {
   const category = query?.category || courseData.sideCategory;
   const page = query?.page || 1;
@@ -182,9 +191,19 @@ onMounted(() => {
   //类别切换监听
   emitter.on("course", (val) => {
     courseData.sideCategory = val;
-    (courseData.page = 1), getCourseData({ category: val, page: 1 });
+    courseData.page = 1;
+    getCourseData({ category: val, page: 1 });
   });
 });
+//个人信息切换
+// const getUserData = async (query) => {
+//   const res = await getUserInfo();
+//   const data = res.data;
+//   onMounted(() => {
+//     getUserData();
+//     emitter.on("user", (val) => {});
+//   });
+// };
 </script>
 
 <style lang="less" scoped>

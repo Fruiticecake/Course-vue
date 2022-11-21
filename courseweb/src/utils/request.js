@@ -48,7 +48,7 @@ const request = (options) => {
   if (options.method === "get") {
     options.params = options.data;
   }
-  console.log(options)
+  //console.log(options)
   return service(options);
 
 };
