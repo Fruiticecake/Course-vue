@@ -3,8 +3,9 @@ import axios from "axios";
 /**
  * 创建实例
  */
-const ENV = process.env.NODE_ENV;
-const host = ENV === "development" ? "http://127.0.0.1:3000" : "http://www.zyjproject.top";
+//const ENV = process.env.NODE_ENV;
+//const host = ENV === "development" ? "http://127.0.0.1:3000" : "http://www.zyjproject.top";
+const host = "http://119.23.73.9:3000";
 const service = axios.create({
   baseURL: host,
   timeout: "3000",

@@ -1,0 +1,117 @@
+<template>
+    <div class="app-container">
+      <el-form
+        :model="form"
+        ref="form"
+        label-width="100px"
+        v-loading="formLoading"
+        :rules="rules"
+      >
+        <el-form-item label="用户名：" prop="studentName" required>
+          <el-input v-model="form.studentName"></el-input>
+        </el-form-item>
+        <el-form-item label="密码：" required>
+          <el-input v-model="form.password"></el-input>
+        </el-form-item>
+        <el-form-item label="所属班级：" prop="className" required>
+          <el-input v-model="form.className"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄：">
+          <el-input v-model="form.age"></el-input>
+        </el-form-item>
+        <el-form-item label="性别：">
+          <el-select v-model="form.sex" placeholder="性别" clearable>
+            <el-option
+              v-for="item in sexEnum"
+              :key="item.key"
+              :value="item.key"
+              :label="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="出生日期：">
+          <el-date-picker
+            v-model="form.birthDay"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="选择日期"
+          />
+        </el-form-item>
+        <el-form-item label="手机：">
+          <el-input v-model="form.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="状态：" required>
+          <el-select v-model="form.status" placeholder="状态">
+            <el-option
+              v-for="item in statusEnum"
+              :key="item.key"
+              :value="item.key"
+              :label="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button @click="resetForm">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        form: {
+          id: null,
+          studentName: "",
+          password: "",
+          className: "",
+          role: 3,
+          status: 1,
+          age: "",
+          sex: "",
+          birthDay: null,
+          phone: null,
+        },
+        formLoading: false,
+        rules: {
+          studentName: [
+            { required: true, message: "请输入用户名", trigger: "blur" },
+          ],
+          className: [
+            { required: true, message: "请输入真实姓名", trigger: "blur" },
+          ],
+        },
+      };
+    },
+    created() {
+      let id = this.$route.query.id;
+      let _this = this;
+      if (id && parseInt(id) !== 0) {
+        _this.formLoading = true;
+        console.log(id);
+      }
+    },
+    methods: {
+      resetForm() {
+        let lastId = this.form.id;
+        this.$refs["form"].resetFields();
+        this.form = {
+          id: null,
+          studentName: "",
+          password: "",
+          className: "",
+          role: 3,
+          status: 1,
+          age: "",
+          sex: "",
+          birthDay: null,
+          phone: null,
+        };
+        this.form.id = lastId;
+      },
+    },
+  };
+  </script>
+  

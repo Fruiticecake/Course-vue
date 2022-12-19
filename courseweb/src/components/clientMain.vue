@@ -28,6 +28,7 @@
 import clientTable from "./clientTable.vue";
 import courseEdit from "./courseEdit.vue";
 import pagination from "./pagination.vue";
+import router from "../router/index";
 import { reactive, ref } from "vue";
 import { computed } from "@vue/runtime-core";
 import {
@@ -38,6 +39,7 @@ import {
 } from "../api/index";
 import { onMounted } from "@vue/runtime-core";
 import emitter from "@/utils/eventBus";
+import { routerKey } from "vue-router";
 const courseData = reactive({
   list: [],
   total: 15,
@@ -194,6 +196,7 @@ onMounted(() => {
     courseData.page = 1;
     getCourseData({ category: val, page: 1 });
   });
+  
 });
 //个人信息切换
 // const getUserData = async (query) => {

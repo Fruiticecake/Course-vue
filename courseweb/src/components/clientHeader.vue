@@ -9,7 +9,7 @@
       /></el-icon>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">课程管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/">用户管理</a></el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div
@@ -18,7 +18,6 @@
       @mouseleave="isShowUserInfo('leaveUserInfo')"
     >
       <img :src="userInfo.headImg" alt="" />
-
       <div class="userInfo" v-show="showUserInfo">
         <div>{{ userInfo.name }}</div>
         <div @click="loginOut">退出登录</div>

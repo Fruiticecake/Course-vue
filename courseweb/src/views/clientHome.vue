@@ -8,7 +8,14 @@
         <el-header>
           <Header :handleOpen="handleOpen" :isCollapse="isCollapse"></Header
         ></el-header>
-        <el-main><Main></Main></el-main>
+        <el-main>
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <transition :name="animation">
+                <component :is="Component" />
+              </transition>
+            </keep-alive> </router-view
+        ></el-main>
         <el-footer><Footer></Footer></el-footer>
       </el-container>
     </el-container>
@@ -20,14 +27,51 @@ import Header from "../components/clientHeader.vue";
 import Aside from "../components/clientAside.vue";
 import Main from "../components/clientMain.vue";
 import Footer from "../components/clientFooter.vue";
+import { onBeforeRouteUpdate } from "vue-router";
 import { ref } from "vue";
 const isCollapse = ref(false);
 const handleOpen = () => {
   isCollapse.value = !isCollapse.value;
 };
+
+const animation = ref("slide");
+onBeforeRouteUpdate((to, form) => {
+  if (to.meta.index > form.meta.index) {
+    animation.value = "slide-left";
+  } else {
+    animation.value = "slide-right";
+  }
+});
 </script>
 
 <style lang="less" scoped>
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transition: all 300ms cubic-bezier(0.55, 0, 0.1, 1);
+  position: absolute;
+  backface-visibility: hidden;
+}
+.slide-right-enter-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate3d(3%, 0, 0);
+}
+.slide-left-enter-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.slide-left-leave-active {
+  opacity: 0;
+  transform: translate3d(-3%, 0, 0);
+}
 .el-aside {
   width: auto;
   overflow: hidden;
