@@ -1,29 +1,24 @@
 <template>
-  <el-table
-    :data="filterTableData"
-    style="width: 100%"
-    stripe="true"
-    border="true"
-  >
-    <el-table-column label="创建时间" prop="createDate">
+  <el-table :data="filterTableData" style="width: 100%" stripe border>
+    <el-table-column label="创建时间" prop="create_time">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.createDate }}</span>
+          <span style="margin-left: 10px">{{ scope.row.create_time }}</span>
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="Id" prop="adminId" width="100px"/>
-    <el-table-column label="管理员名称" prop="adminName">
+    <el-table-column label="Id" prop="id" width="100px" />
+    <el-table-column label="管理员名称" prop="username">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top" width="auto">
           <template #reference>
-            <el-tag>{{ scope.row.adminName }}</el-tag>
+            <el-tag>{{ scope.row.username }}</el-tag>
           </template>
         </el-popover>
       </template>
     </el-table-column>
-    <el-table-column label="真实姓名" prop="realName" />
+    <el-table-column label="真实姓名" prop="realname" />
     <el-table-column label="手机号" prop="phone" />
     <el-table-column label="邮箱" prop="email" />
     <el-table-column align="right">
@@ -31,7 +26,10 @@
         <el-input v-model="search" size="small" placeholder="输入关键词查询" />
       </template>
       <template #default="scope">
-        <router-link :to="{ path: 'edit', query: { id: scope.row.id } }" style="margin-right: 20px;">
+        <router-link
+          :to="{ path: 'edit', query: { id: scope.row.id } }"
+          style="margin-right: 20px"
+        >
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
           ></router-link
@@ -48,14 +46,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
+import { getAdminInfo } from "@/api/index";
+import { onMounted } from "@vue/runtime-core";
 const search = ref("");
 const filterTableData = computed(() =>
-  userData.filter(
+  userData.total.filter(
     (data) =>
       !search.value ||
-      data.adminName.toLowerCase().includes(search.value.toLowerCase()) ||
-      data.realName.toLowerCase().includes(search.value.toLowerCase())
+      data.username.toLowerCase().includes(search.value.toLowerCase()) ||
+      data.realname.toLowerCase().includes(search.value.toLowerCase())
   )
 );
 const handleEdit = (index, row) => {
@@ -64,43 +64,28 @@ const handleEdit = (index, row) => {
 const handleDelete = (index, row) => {
   console.log(index, row);
 };
-const userData = [
-  {
-    createDate: "2016-05-03",
-    adminId: 2,
-    realName: "章三",
-    adminName: "California",
-    phone: 1234129385,
-    email: "Home@gamil.com",
-  },
-  {
-    createDate: "2016-05-02",
-    adminId: 9,
-    realName: "莉丝",
-    adminName: "California",
-    phone: 1234129385,
-    email: "Office@gamil.com",
-  },
-  {
-    createDate: "2016-05-04",
-    adminId: 3,
-    realName: "Tom",
-    adminName: "California",
-    phone: 1234129385,
-    email: "Home@gamil.com",
-  },
-  {
-    createDate: "2016-05-01",
-    adminId: 5,
-    realName: "Jom",
-    adminName: "California",
-    phone: 1234129385,
-    email: "Office@gamil.com",
-  },
-];
+const userData = reactive({
+  total: [
+    {
+      id: "",
+      username: "",
+      realname: "",
+      phone: "",
+      email: "",
+      create_time: "",
+    },
+  ],
+});
+const getUserData = async () => {
+  const res = await getAdminInfo();
+  let data = res.data;
+  userData.total = data.total;
+};
+onMounted(() => {
+  getUserData();
+});
 </script>
 
 <style lang="less" scoped>
-.text {
-}
+
 </style>

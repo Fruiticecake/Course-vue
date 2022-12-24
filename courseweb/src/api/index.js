@@ -21,7 +21,20 @@ export const getLogin = (data) => {
 export const getUserInfo = () => {
   return request({ method: "get", url: "/api/v1/user/userInfo" });
 };
+/**
+ * 学生信息接口
+ */
 
+export const getStudentInfo = () => {
+  return request({ method: "get", url: "/api/v1/user/student/list" });
+};
+/**
+ * 管理员信息接口
+ */
+
+export const getAdminInfo = () => {
+  return request({ method: "get", url: "/api/v1/user/admin/list" });
+};
 /**
  * 列表数据接口
  */
@@ -37,6 +50,6 @@ export const changeCourse = (data) => {
 /**
  * 课程删除接口
  */
- export const deleteCourse = (data) => {
+export const deleteCourse = (data) => {
   return request({ method: "get", url: "/api/v1/course/delete", data });
 };

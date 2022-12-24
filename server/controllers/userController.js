@@ -18,7 +18,7 @@ exports.registerController = (req, res) => {
       return res.send({ code: 1, message: err.message });
     }
     //判断是否存在用户
-    console.log(results);
+    //console.log(results);
     if (results.length > 0) {
       return res.send({ code: 1, message: "该用户已经存在" });
     }
@@ -27,12 +27,12 @@ exports.registerController = (req, res) => {
     const passwordB = bcrypt.hashSync(password, 10);
     //生成随机头像
     const imgList = [
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9%20(1).png?raw=true',
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9%20(2).png?raw=true',
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9.png?raw=true',
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9%20(1).png?raw=true',
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9%20(2).png?raw=true',
-      'https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9.png?raw=true',
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9%20(1).png?raw=true",
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9%20(2).png?raw=true",
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E5%A5%B3%E5%AD%A9.png?raw=true",
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9%20(1).png?raw=true",
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9%20(2).png?raw=true",
+      "https://github.com/Fruiticecake/images/blob/main/course-images/%E5%A4%B4%E5%83%8F%20%E7%94%B7%E5%AD%A9.png?raw=true",
     ];
     const num = Math.floor(Math.random() * 6 + 1);
     //用户信息插入
@@ -91,4 +91,37 @@ exports.userController = (req, res) => {
   });
 };
 
-
+/**
+ * 查询学生用户
+ */
+exports.studentController = (req, res) => {
+  const studentSql = "select * from student";
+  db.query(studentSql, (err, results) => {
+    if (err) {
+      return res.send({ code: 1, message: err.message });
+    }
+    res.send({
+      code: 0,
+      data: {
+        total: results,
+      },
+    });
+  });
+};
+/**
+ * 查询管理员用户
+ */
+exports.adminController = (req, res) => {
+  const adminSql = "select id,name username,realname,phone,email,create_time from user";
+  db.query(adminSql, (err, results) => {
+    if (err) {
+      res.send({ code: 1, message: err.message });
+    }
+    res.send({
+      code: 0,
+      data: {
+        total: results,
+      },
+    });
+  });
+};

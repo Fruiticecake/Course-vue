@@ -6,17 +6,14 @@ const db = require("../config/db");
 exports.listVideo = (req, res) => {
   let { category, page, size } = req.query;
   page = (page - 1) * size;
-
   const pageSql =
     "select * from video where del=0 and category = ? order by id limit ?,?";
   const totalSql =
     "select count(*) as total from video where del=0 and category = ?";
-
   db.query(pageSql, [category, Number(page), Number(size)], (err, resPage) => {
     if (err) {
       return res.send({ code: 1, message: err.message });
     }
-
     db.query(totalSql, category, (err, resTotal) => {
       if (err) {
         return res.send({ code: 1, message: err.message });
@@ -31,6 +28,7 @@ exports.listVideo = (req, res) => {
     });
   });
 };
+
 /**
  * 课程修改
  */
