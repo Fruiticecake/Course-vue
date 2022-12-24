@@ -9,7 +9,17 @@
 - 前后端分离部署。服务器是centOs，所以单独打包的linux版本
 - 前端：docker pull fruiticecake/gorker-vue3-linux:latest
 - 服务端：docker pull fruiticecake/gorker-express-linux:latest
+## 若需要修改后docker部署
+- 要修改courseweb/nginx/default.conf文件中 proxy_pass 后为要部署的服务器地址。
+# 本地运行
+- 数据库连接用dotenv的全局变量，需自行在根目录下创建.env文件配置相关数据库信息。
+# 数据库
+- 数据库sql在server文件中。
+## ER图
 
+![images](https://fruiticecake-images.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93ER%E5%9B%BE.png)
+
+# 界面演示（未更新）
 ![Snipaste_2022-11-14_01-11-13](https://user-images.githubusercontent.com/85162796/201534654-5aecb0e9-1f26-4e60-9517-14a826567903.png)
 
 
