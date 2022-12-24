@@ -2,6 +2,7 @@
 - Gorker管理系统 个人全栈项目
 - 框架为 vue3+express+Mysql
 - 跨域 cors
+体验 http://119.23.73.9:3010  版本为2022/12/15
 
 ![Snipaste_2022-11-14_01-11-13](https://user-images.githubusercontent.com/85162796/201534654-5aecb0e9-1f26-4e60-9517-14a826567903.png)
 
